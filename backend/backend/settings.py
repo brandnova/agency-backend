@@ -32,6 +32,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY')
+
 ALLOWED_HOSTS = []
 
 
@@ -49,6 +52,8 @@ INSTALLED_APPS = [
     'authentication',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'portfolio',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +135,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -149,13 +157,29 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
-# Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
-EMAIL_HOST = env('EMAIL_HOST', default='localhost')
-EMAIL_PORT = env('EMAIL_PORT', default=25)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=False)
+# Email settings (Console)
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
+# EMAIL_HOST = env('EMAIL_HOST', default='localhost')
+# EMAIL_PORT = env('EMAIL_PORT', default=25)
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=False)
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='from@eg.com')
+# SITE_URL= env('SITE_URL', default='http://localhost:8000')
+
+
+## Mailhog SMTP
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False  # MailHog does not use TLS by default
+DEFAULT_FROM_EMAIL = 'from@eg.com'
+SITE_URL= 'http://localhost:8000'
+
 
 from datetime import timedelta
 
